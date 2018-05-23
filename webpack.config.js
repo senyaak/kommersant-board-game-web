@@ -29,6 +29,9 @@ module.exports = [
     entry: './src/server/app.ts',
     mode: 'development',
     target: 'node',
+    node: {
+      __dirname: true
+    },
     output: {
       filename: 'app.js',
       path: path.resolve(__dirname, 'dist')
@@ -49,14 +52,23 @@ module.exports = [
         script: './dist/app.js'
       }),
     ],
+    resolve: {
+      extensions: ['.ts', 'tsx', '.js', '.vue', '.json', 'scss', 'css', 'sass', 'html'],
+      alias: {
+        '@': path.resolve(__dirname, 'src', 'server'),
+        'config': path.resolve(__dirname, 'config'),
+        'root': path.resolve(__dirname),
+      }
+    },
   }, {
     // CLIENT
     mode: 'development',
     entry: './src/client/index.ts',
+    target: 'web',
     output: {
       path: path.resolve(__dirname, './dist/public'),
-      publicPath: '/dist/public',
-      filename: 'build.js'
+      // publicPath: '/public',
+      filename: 'build.js',
     },
     module: {
       rules: [{
@@ -95,4 +107,13 @@ module.exports = [
       }),
       extractSass,
     ],
+    resolve: {
+      extensions: ['.ts', 'tsx', '.js', '.vue', '.json', 'scss', 'css', 'sass', 'html'],
+      alias: {
+        '#': path.resolve(__dirname, 'src', 'client'),
+        'config': path.resolve(__dirname, 'config'),
+        'vue$': 'vue/dist/vue.esm.js',
+        'root': path.resolve(__dirname),
+      }
+    },
 }];

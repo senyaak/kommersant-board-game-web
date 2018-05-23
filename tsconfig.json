@@ -8,11 +8,16 @@
     "experimentalDecorators": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"]
+      "#/*": ["./client/*"],
+      "@/*": ["./server/*"],
+      "config/*": ["./../config/*"],
+      "root/*": ["./../*"]
     }
   },
   "filesGlob": [
+    "./src/types/*",
     "./src/**/*.ts",
-    "./node_modules/@types/**/*.ts"
+    "./node_modules/@types/**/*.ts",
+    "./src/types/*.d.ts"
   ]
 }
