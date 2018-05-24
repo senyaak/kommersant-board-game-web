@@ -3,8 +3,9 @@ import VueRouter from 'vue-router';
 
 import Home from '#/Home';
 import Lobby from '#/Lobby';
-// Register components
-// Vue.component('Home', Home);
+
+import {io} from '#/index';
+import {SocketEvents} from 'types/socketEvents';
 
 Vue.use(VueRouter)
 
@@ -30,17 +31,14 @@ const router = new VueRouter({
   ]
 });
 
-// redirect ro login page if not authenticated
-// router.beforeEach((to, from, next) => {
-//   if (to.path !== '/login') {
-//     if (Auth.default.user.authenticated) {
-//       next()
-//     } else {
-//       router.push('/login')
-//     }
-//   } else {
-//     next()
-//   }
-// })
+// join lobby
+router.beforeEach((to, from, next) => {
+  if (to.path === '/lobby') {
+    io.emit(SocketEvents.join_lobby);
+  } else if(from.path === '/lobby') {
+    io.emit(SocketEvents.leave_lobby);
+  }
+  next();
+});
 
 export default router;

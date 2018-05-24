@@ -5,9 +5,9 @@ Vue.use(<any>vuetify);
 import "root/node_modules/vuetify/dist/vuetify.min.css";
 Vue.config.productionTip = false;
 
-import Router from '#/router';
+import Router from '#/Router';
 
-socket();
+export const io = socket();
 
 let app = new Vue({
   router: Router,
