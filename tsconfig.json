@@ -11,7 +11,8 @@
       "#/*": ["./client/*"],
       "@/*": ["./server/*"],
       "config/*": ["./../config/*"],
-      "root/*": ["./../*"]
+      "root/*": ["./../*"],
+      "types/*": ["./types/*"]
     }
   },
   "filesGlob": [

@@ -56,6 +56,8 @@ module.exports = [
       extensions: ['.ts', 'tsx', '.js', '.vue', '.json', 'scss', 'css', 'sass', 'html'],
       alias: {
         '@': path.resolve(__dirname, 'src', 'server'),
+        '#': path.resolve(__dirname, 'src', 'client'),
+        'types': path.resolve(__dirname, 'src', 'types'),
         'config': path.resolve(__dirname, 'config'),
         'root': path.resolve(__dirname),
       }
@@ -110,7 +112,9 @@ module.exports = [
     resolve: {
       extensions: ['.ts', 'tsx', '.js', '.vue', '.json', 'scss', 'css', 'sass', 'html'],
       alias: {
+        '@': path.resolve(__dirname, 'src', 'server'),
         '#': path.resolve(__dirname, 'src', 'client'),
+        'types': path.resolve(__dirname, 'src', 'types'),
         'config': path.resolve(__dirname, 'config'),
         'vue$': 'vue/dist/vue.esm.js',
         'root': path.resolve(__dirname),
