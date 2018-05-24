@@ -26,9 +26,10 @@
 
 #### 0.1.0
 
-+ [ ] client managment
 + [ ] lobby system
-+ [ ] landing
++ [ ] client managment
++ [ ] nicknames
++ [ ] landing page
 
 
 #### 0.0.1
