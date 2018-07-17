@@ -3,12 +3,14 @@
     Rooms:
     <ul>
       <li v-for="room in rooms">
-        {{ room.id }} | {{ room.count }}
+        <router-link :to="{name: 'Room', params:{ id: room.id }}">
+          {{ room.name }} | {{ room.count }}
+        </router-link>
       </li>
     </ul>
   </div>
   <div>
-      <router-link :to="{name: 'Room', params:{ room: -1 }}">
+      <router-link :to="{name: 'Room', params:{ id: -1 }}">
         <v-btn :outline="true">
           Create lobby
         </v-btn>

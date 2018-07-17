@@ -3,19 +3,22 @@ import * as express from 'express';
 
 import {SocketEvents as SE} from 'types/socketEvents';
 
-import Client from '@/Client';
 import {Lobby} from '@/Lobby';
+import {Room} from '@/Room';
 
 export function initSocket(server) {
-  const io: SocketIO.Server = socket(server);
+  const io: SocketIO.Namespace = socket(server).of('lobby');
 
   init(io);
   Lobby.initLobby(io);
+  Room.initRoom(io);
   return io;
 }
 
-function init(io: SocketIO.Server) {
+function init(io: SocketIO.Namespace) {
   io.on(SE.connection, (socket: SocketIO.Socket) => {
-    new Client(socket);
+    // Initialize events:
+    Lobby.initEvents(socket);
+    Room.initEvents(socket);
   });
 }

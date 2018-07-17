@@ -7,13 +7,15 @@ Vue.config.productionTip = false;
 
 import Router from '#/Router';
 
-export const io = socket();
+export const io = socket.connect('/lobby');
 
 let app = new Vue({
   router: Router,
+  data: {loading: false},
   template: `
   <v-app>
-    <v-content>
+    <v-progress-linear v-show="loading" :indeterminate="true"></v-progress-linear>
+    <v-content v-show="!loading">
       <router-view/>
     </v-content>
   </v-app>`,

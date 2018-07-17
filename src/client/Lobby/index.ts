@@ -8,16 +8,32 @@ import {API} from 'types/api'
 
 import template from './lobby.html';
 
+type RoomList = {name: string; id: number, count: number};
+
 @Component({
   template: template,
+  beforeRouteEnter(to, from, next) {
+    io.emit(SE.join_lobby, 1);
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    io.emit(SE.leave_lobby);
+    next();
+  },
+  beforeMount(this: Lobby) {
+    this.$router.app.$data.loading = true;
+    axios.get(API.lobby).then(({data}) => {
+      this.rooms = data;
+      this.$router.app.$data.loading = false;
+    });
+  },
+  created(this: Lobby) {
+    io.on(SE.update_lobby, this.updateLobby);
+  },
 })
 export default class Lobby extends Vue {
-  rooms: {id: number, count: number}[] = [];
-
-  beforeMount() {
-    axios.get(API.lobby).then(({data}) => {
-      // TODO: transform rooms? assign to rooms;
-      this.rooms = data;
-    });
+  rooms: RoomList[] = [];
+  updateLobby(rooms: RoomList[]) {
+    this.rooms = rooms;
   }
 };
