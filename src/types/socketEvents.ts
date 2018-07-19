@@ -8,5 +8,6 @@ export enum SocketEvents {
   update_lobby = 'update_lobby',
   // room
   join_room = 'join_room',
+  player_joined = 'player_joined',
   leave_room = 'leave_room',
 }

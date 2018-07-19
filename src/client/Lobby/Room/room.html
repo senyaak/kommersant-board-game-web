@@ -1,5 +1,9 @@
 <div class="">
-  This is a roooom
+  <ol>
+    <li v-for="player in players">
+      {{player}}
+    </li>
+  </ol>
   <router-link :to="{name: 'LobbyList'}">
     <v-btn :outline="true">
       Back

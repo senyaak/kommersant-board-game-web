@@ -13,7 +13,7 @@ type RoomList = {name: string; id: number, count: number};
 @Component({
   template: template,
   beforeRouteEnter(to, from, next) {
-    io.emit(SE.join_lobby, 1);
+    io.emit(SE.join_lobby);
     next();
   },
   beforeRouteLeave(to, from, next) {
@@ -29,6 +29,9 @@ type RoomList = {name: string; id: number, count: number};
   },
   created(this: Lobby) {
     io.on(SE.update_lobby, this.updateLobby);
+  },
+  destroyed(this: Lobby) {
+    io.removeListener(SE.update_lobby, this.updateLobby);
   },
 })
 export default class Lobby extends Vue {
