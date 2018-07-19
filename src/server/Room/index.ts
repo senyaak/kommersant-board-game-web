@@ -6,6 +6,10 @@ import {SocketRooms as SR} from 'types/socketRooms';
 // import {Adapter} from 'socket.io';
 
 export type SocketRooms = SocketIO.Adapter['rooms'];
+export type JoinResult = {
+  id: number;
+  playerList?: string[];
+};
 
 export class Room {
   private static io: SocketIO.Namespace;
@@ -21,24 +25,30 @@ export class Room {
   }
 
   static initEvents(socket: SocketIO.Socket) {
-    socket.on(SE.join_room, (id: number, done: (id: number) => void) => {
+    socket.on(SE.join_room, (id: number, done: (result: JoinResult) => void) => {
       done(Room.joinRoom(socket, id));
     });
     socket.on(SE.leave_room, () => Room.leaveRoom(socket));
   }
 
-  static joinRoom(socket: SocketIO.Socket, id: number) {
+  static joinRoom(socket: SocketIO.Socket, id: number): JoinResult {
     // have to join to lobby - first check if exists
     if(id !== -1 && !Room.rooms[`${Room.roomPrefix}${id}`]) {
-      return -1;
+      return {id: -1};
     }
     // have to create lobby - set new id
     if(id === -1) {
       id = ++Room.counter;
     }
-    socket.join(`${Room.roomPrefix}${id}`)
+    // join room
+    let roomId = `${Room.roomPrefix}${id}`;
+    socket.join(roomId);
+    // update player list
     Room.io.to(SR.lobby).emit(SE.update_lobby, Lobby.rooms);
-    return id;
+    let playerList = Object.keys(Room.rooms[roomId].sockets);
+    Room.io.to(roomId).emit(SE.update_room, playerList);
+    // update room list
+    return {id, playerList};
     // TODO: is already in some room?
     // TODO: lobby full?
   }
@@ -49,6 +59,11 @@ export class Room {
       throw new Error(`Room count inconsistent!`);
     }
     socket.leave(`${id[0]}`);
+    // if there players in room - update room
+    if(Room.rooms[id[0]]) {
+      let playerList = Object.keys(Room.rooms[id[0]].sockets);
+      Room.io.to(id[0]).emit(SE.update_room, playerList);
+    }
     Room.io.to(SR.lobby).emit(SE.update_lobby, Lobby.rooms);
   }
 
