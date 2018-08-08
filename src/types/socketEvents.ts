@@ -2,6 +2,7 @@ export enum SocketEvents {
   // connect
   connection = 'connection',
   disconnect = 'disconnect',
+  disconnecting = 'disconnecting',
   // lobby
   join_lobby = 'join_lobby',
   leave_lobby = 'leave_lobby',

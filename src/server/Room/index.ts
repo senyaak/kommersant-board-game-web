@@ -29,6 +29,7 @@ export class Room {
       done(Room.joinRoom(socket, id));
     });
     socket.on(SE.leave_room, () => Room.leaveRoom(socket));
+    socket.on(SE.disconnecting, () => Room.leaveRoom(socket));
   }
 
   static joinRoom(socket: SocketIO.Socket, id: number): JoinResult {
