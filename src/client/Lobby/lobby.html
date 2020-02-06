@@ -2,23 +2,8 @@
   <div>
     Rooms:
     <ul>
-      <li v-for="room in rooms">
-        <router-link :to="{name: 'Room', params:{ id: room.id }}">
-          {{ room.name }} | {{ room.count }}
-        </router-link>
+      <li>
       </li>
     </ul>
-  </div>
-  <div>
-      <router-link :to="{name: 'Room', params:{ id: -1 }}">
-        <v-btn :outline="true">
-          Create lobby
-        </v-btn>
-      </router-link>
-      <router-link :to="{name: 'Home'}">
-        <v-btn :outline="true">
-          Main menu
-        </v-btn>
-      </router-link>
   </div>
 </div>
